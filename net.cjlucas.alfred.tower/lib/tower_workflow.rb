@@ -23,7 +23,11 @@ module TowerWorkflow
 
       query.nil? || query.empty? \
       ? @repositories \
-        : FuzzyMatch.new(@repositories, read: :name).find_all(query)
+        : @repositories.select do |repo|
+            repo.name.downcase.include? query
+
+      end
+
     end
 
     def query(query = nil)
